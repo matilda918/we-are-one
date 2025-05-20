@@ -11,5 +11,6 @@ import java.util.List;
 
 public interface LessionRepositoy extends JpaRepository<Lession, Integer> {
     List<Lession> findById(int id);
+    boolean existsByLessionName(String lessionName);
 }
 

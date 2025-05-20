@@ -12,7 +12,7 @@ public class Lession {
     @GeneratedValue(strategy = jakarta.persistence.GenerationType.IDENTITY)
     private int id;
     private String lessionName;
-    private String soGio;
+    private int soGio;
     private String moTaLession;
 
     @ManyToOne

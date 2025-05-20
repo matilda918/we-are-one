@@ -6,13 +6,12 @@ import com.data.demo61.entity.Course;
 import com.data.demo61.entity.Lession;
 import com.data.demo61.repository.CourseRepository;
 import com.data.demo61.request.CoursesCreateRequest;
-import com.data.demo61.request.LessionReques;
-import com.data.demo61.sercive.CourseServiceImpl;
-import com.data.demo61.sercive.ICourseService;
+import com.data.demo61.service.ICourseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,6 +41,7 @@ public class CourseController {
             courseDto.setCourseName(course.getCourseName());
             courseDto.setSoBuoi(course.getSoBuoi());
             courseDto.setSoGio(course.getSoGio());
+            courseDto.setMoTaKhoaHoc(course.getMoTaKhoaHoc());
 
             courseDtos.add(courseDto);
 
@@ -51,6 +51,7 @@ public class CourseController {
         return ResponseEntity.ok(dtoPage);
 
     }
+
 
     @GetMapping("courses/{id}")
 
@@ -63,6 +64,8 @@ public class CourseController {
             courseDto.setCourseName(course.getCourseName());
             courseDto.setSoBuoi(course.getSoBuoi());
             courseDto.setSoGio(course.getSoGio());
+            courseDto.setMoTaKhoaHoc(course.getMoTaKhoaHoc());
+
 
             List<LessionDto> lessionDtos = new ArrayList<>();
             List<Lession> lessionList = course.getLessions();
@@ -77,24 +80,25 @@ public class CourseController {
             courseDtos.add(courseDto);
 
         });
-        return ResponseEntity.ok(courseDtos);
+        return new ResponseEntity<>(courseDtos,HttpStatus.OK);
 
     }
 
     @PostMapping("courses")
     public ResponseEntity<?> createCourse(@RequestBody CoursesCreateRequest coursesCreateRequest) {
-        if (coursesCreateRequest.getCourseName() == null || coursesCreateRequest.getCourseName().isEmpty()) {
-            return ResponseEntity.badRequest().body("Tên khoá học không được để trống");
+        if (coursesCreateRequest.getCourseName() == null || coursesCreateRequest.getCourseName().isEmpty() || courseService.existsByCourseName(coursesCreateRequest.getCourseName())) {
+            return ResponseEntity.badRequest().body("Tên khoá học không được để trống hoặc tên đã được sử dụng .");
         } else if (coursesCreateRequest.getSoBuoi() <= 0) {
-            return ResponseEntity.badRequest().body("Số buổi không được để trống");
+            return ResponseEntity.badRequest().body("Số buổi không được nhỏ hơn hoặc bằng không");
         } else if (coursesCreateRequest.getSoGio() <= 0) {
-            return ResponseEntity.badRequest().body("Số giờ không được để trống");
+            return ResponseEntity.badRequest().body("Số giờ không được nhỏ hơn hoặc bằng không");
         }
 
         Course course = new Course();
         course.setCourseName(coursesCreateRequest.getCourseName());
         course.setSoBuoi(coursesCreateRequest.getSoBuoi());
         course.setSoGio(coursesCreateRequest.getSoGio());
+        course.setMoTaKhoaHoc(coursesCreateRequest.getMoTaKhoaHoc());
         courseRepository.save(course);
         return ResponseEntity.ok("Thêm khoá học thành công");
     }
@@ -142,6 +146,7 @@ public class CourseController {
             courseDto.setCourseName(course.getCourseName());
             courseDto.setSoBuoi(course.getSoBuoi());
             courseDto.setSoGio(course.getSoGio());
+            courseDto.setMoTaKhoaHoc(course.getMoTaKhoaHoc());
 
             courseDtos.add(courseDto);
 
@@ -150,7 +155,6 @@ public class CourseController {
         Page<CourseDto> dtoPage = new PageImpl<>(courseDtos, pageable, courses.getTotalElements());
         return ResponseEntity.ok(dtoPage);
     }
-
 
 
 }

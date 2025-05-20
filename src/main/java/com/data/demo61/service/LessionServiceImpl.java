@@ -1,4 +1,4 @@
-package com.data.demo61.sercive;
+package com.data.demo61.service;
 
 import com.data.demo61.entity.Lession;
 import com.data.demo61.repository.CourseRepository;
@@ -19,5 +19,10 @@ public class LessionServiceImpl implements ILessionService{
     @Override
     public List<Lession> findById(int id) {
         return lessionRepositoy.findById(id);
+    }
+
+    @Override
+    public boolean existsByLessionName(String lessionName) {
+        return lessionRepositoy.existsByLessionName(lessionName);
     }
 }

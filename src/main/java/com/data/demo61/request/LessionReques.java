@@ -6,13 +6,13 @@ import lombok.Data;
 
 public class LessionReques {
     private String lessionName;
-    private String soGio;
+    private int soGio;
     private String moTaLession;
 
 
     public LessionReques() {
     }
-    public LessionReques(String lessionName, String soGio, String moTaLession) {
+    public LessionReques(String lessionName, int soGio, String moTaLession) {
         this.lessionName = lessionName;
         this.soGio = soGio;
         this.moTaLession = moTaLession;

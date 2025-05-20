@@ -12,6 +12,7 @@ public class CourseDto {
     private String courseName;
     private int soBuoi;
     private int soGio;
+    private String moTaKhoaHoc;
 
     List<LessionDto> lessions;
 

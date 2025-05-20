@@ -12,6 +12,7 @@ import java.util.List;
 public interface CourseRepository extends JpaRepository<Course, Integer> {
     List<Course> findById(int id);
     Page<Course> findByCourseNameContainingIgnoreCase(String courseName, Pageable pageable);
+    boolean existsByCourseName(String courseName);
 }
 
 

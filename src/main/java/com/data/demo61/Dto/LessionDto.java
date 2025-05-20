@@ -7,6 +7,6 @@ import lombok.Data;
 public class LessionDto {
     private int id;
     private String lessionName;
-    private String soGio;
+    private int soGio;
     private String moTaLession;
 }

@@ -1,8 +1,7 @@
-package com.data.demo61.sercive;
+package com.data.demo61.service;
 
 import com.data.demo61.entity.Course;
 import com.data.demo61.repository.CourseRepository;
-import com.data.demo61.repository.LessionRepositoy;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -26,5 +25,10 @@ public class CourseServiceImpl implements ICourseService {
     @Override
     public Page<Course> findByCourseName(String courseName, Pageable pageable) {
         return courseRepository.findByCourseNameContainingIgnoreCase(courseName, pageable);
+    }
+
+    @Override
+    public boolean existsByCourseName(String courseName) {
+        return courseRepository.existsByCourseName(courseName);
     }
 }
